@@ -1,0 +1,21 @@
+name: Website Monitor
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check and notify
+        run: |
+          HASH=$(curl -s https://httpbin.org/uuid | md5sum | awk '{print $1}')
+          LAST=$(cat last_hash.txt 2>/dev/null || echo "none")
+          if [ "$HASH" != "$LAST" ]; then
+            curl -d "Change detected!" https://ntfy.sh/kl-monitor-7x3q9
+          fi
+          echo "$HASH" > last_hash.txt
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
