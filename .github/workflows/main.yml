@@ -15,7 +15,7 @@ jobs:
           HASH=$(curl -s https://httpbin.org/uuid | md5sum | awk '{print $1}')
           LAST=$(cat last_hash.txt 2>/dev/null || echo "none")
           if [ "$HASH" != "$LAST" ]; then
-            curl -d "Change detected!" https://ntfy.sh/kl-monitor-7x3q9
+            curl -d "New NAO dropped" https://ntfy.sh/nao_gfs_1218
           fi
           echo "$HASH" > last_hash.txt
 
