@@ -8,22 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check NAO update
+      - name: Check NAO image
         run: |
-          TODAY=$(date +%Y-%m-%d)
-          NOTIFIED=$(cat notified_date.txt 2>/dev/null || echo "none")
-
-          if [ "$TODAY" = "$NOTIFIED" ]; then
-            echo "Already notified today, skipping."
-            exit 0
-          fi
-
-          HASH=$(curl -s https://ftp.cpc.ncep.noaa.gov/norm.daily.nao.gefs.z500.120days.csv | md5sum | awk '{print $1}')
+          HASH=$(curl -s https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png | md5sum | awk '{print $1}')
           PREV=$(cat last_hash.txt 2>/dev/null || echo "none")
 
           if [ "$HASH" != "$PREV" ] && [ "$PREV" != "none" ]; then
             curl -d "NAO forecast updated!" https://ntfy.sh/nao_gfs_1218
-            echo "$TODAY" > notified_date.txt
           fi
 
           echo "$HASH" > last_hash.txt
