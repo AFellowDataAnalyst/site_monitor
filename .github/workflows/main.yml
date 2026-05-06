@@ -10,7 +10,8 @@ jobs:
 
       - name: Check NAO image
         run: |
-          HASH=$(curl -s https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png | md5sum | awk '{print $1}')
+          HASH=$(curl -s https://radar.weather.gov/ridge/standard/CONUS_loop.gif
+ | md5sum | awk '{print $1}')
           PREV=$(cat last_hash.txt 2>/dev/null || echo "none")
 
           if [ "$HASH" != "$PREV" ] && [ "$PREV" != "none" ]; then
