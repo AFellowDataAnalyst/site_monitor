@@ -14,7 +14,7 @@ jobs:
           PREV=$(cat last_hash.txt 2>/dev/null || echo "none")
 
           if [ "$HASH" != "$PREV" ] && [ "$PREV" != "none" ]; then
-            curl -d "NAO forecast updated!" https://ntfy.sh/nao_gfs_1218
+            curl -H "Attach: https://www.cpc.ncep.noaa.gov/products/precip/CWlink/pna/nao.gefs.sprd2.png" -d "NAO forecast updated!" https://ntfy.sh/nao_gfs_1218
           fi
 
           echo "$HASH" > last_hash.txt
